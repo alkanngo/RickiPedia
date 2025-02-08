@@ -25,3 +25,6 @@ dist-ssr
 
 schema.graphql
 src/generated
+
+# Test coverage
+coverage/
