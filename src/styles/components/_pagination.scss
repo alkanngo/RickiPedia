@@ -1,0 +1,35 @@
+@use 'sass:color';
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.pagination {
+  @include flex-center;
+  gap: $spacing-medium;
+  margin: $spacing-large 0;
+  
+  &__button {
+    @include button-base;
+    background-color: $primary-color;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    
+    &:disabled {
+      background-color: color.adjust($primary-color, $lightness: 30%);
+      cursor: not-allowed;
+      transform: none;
+      
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+  
+  &__info {
+    font-size: $font-size-base;
+    color: $text-color;
+    min-width: 120px;
+    text-align: center;
+  }
+} 
