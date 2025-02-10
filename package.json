@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run codegen",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "ts:check": "tsc",
