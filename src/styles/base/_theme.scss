@@ -1,0 +1,75 @@
+@use '../abstracts/variables' as *;
+
+:root {
+  // Default light theme variables
+  --background-color: #{$background-color-light};
+  --text-color: #{$text-color-light};
+  --text-color-secondary: #{rgba($text-color-light, 0.7)};
+  --surface-color: #{$surface-color-light};
+  --surface-hover: #{rgba($primary-color, 0.05)};
+  --surface-gradient: linear-gradient(
+    to bottom,
+    #{$surface-color-light},
+    #{darken($surface-color-light, 3%)}
+  );
+  --border-color: #{rgba($text-color-light, 0.1)};
+  --shadow-color: #{rgba(0, 0, 0, 0.1)};
+  
+  // Brand colors
+  --primary-color: #{$primary-color};
+  --accent-color: #{$accent-color};
+  --portal-glow: #{rgba($primary-color, 0.2)};
+  --button-hover: #{darken($primary-color, 10%)};
+  --link-color: #{$primary-color};
+  
+  // Status colors
+  --status-alive: #{$status-alive};
+  --status-dead: #{$status-dead};
+  --status-unknown: #{$status-unknown};
+  
+  // Animation
+  --card-hover-transform: translateY(-4px);
+}
+
+// Dark theme overrides
+.dark-theme {
+  --background-color: #{$background-color-dark};
+  --text-color: #{$text-color-dark};
+  --text-color-secondary: #{rgba($text-color-dark, 0.7)};
+  --surface-color: #{$surface-color-dark};
+  --surface-hover: #{rgba($secondary-color, 0.1)};
+  --surface-gradient: linear-gradient(
+    to bottom,
+    #{$surface-color-dark},
+    #{darken($surface-color-dark, 3%)}
+  );
+  --border-color: #{rgba($text-color-dark, 0.2)};
+  --shadow-color: #{rgba(0, 0, 0, 0.3)};
+  
+  // Brand colors for dark theme
+  --primary-color: #{$secondary-color};
+  --accent-color: #{$secondary-color};
+  --portal-glow: #{rgba($secondary-color, 0.2)};
+  --button-hover: #{darken($secondary-color, 10%)};
+  --link-color: #{$secondary-color};
+}
+
+// High Contrast theme (for accessibility)
+@media (prefers-contrast: high) {
+  :root {
+    --text-color: #{$text-color-light};
+    --border-color: #{rgba($text-color-light, 0.4)};
+  }
+  
+  .dark-theme {
+    --text-color: #{$text-color-dark};
+    --border-color: #{rgba($text-color-dark, 0.4)};
+  }
+}
+
+// Reduced Motion
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --card-hover-transform: none;
+  }
+} 

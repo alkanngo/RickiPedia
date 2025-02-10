@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider, createClient, debugExchange, fetchExchange } from 'urql';
+import { ThemeProvider } from '../context/ThemeContext';
 
 const mockClient = createClient({
   url: 'https://rickandmortyapi.com/graphql',
@@ -13,7 +14,9 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <Provider value={mockClient}>
       <BrowserRouter>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </BrowserRouter>
     </Provider>
   );

@@ -11,48 +11,37 @@
 }
 
 html {
-  font-size: $font-size-base;
+  font-size: $font-size-medium;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
+  min-height: 100vh;
   font-family: $font-family-base;
-  line-height: 1.5;
-  color: $text-color;
-  background-color: $background-color;
+  font-size: $font-size-medium;
+  line-height: $line-height-base;
+  text-rendering: optimizeSpeed;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
-img {
+img,
+picture {
   max-width: 100%;
-  height: auto;
   display: block;
 }
 
 button {
-  font-family: inherit;
-  border: none;
   background: none;
-  cursor: pointer;
+  border: none;
   padding: 0;
-  
-  &:focus {
-    outline: none;
-  }
-  
-  &:focus-visible {
-    outline: 2px solid $primary-color;
-    outline-offset: 2px;
-  }
+  cursor: pointer;
 }
 
 a {
-  color: inherit;
   text-decoration: none;
-  
-  &:hover {
-    text-decoration: underline;
-  }
+  color: inherit;
 }
 
 /* Accessibility */
@@ -66,4 +55,41 @@ a {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Remove list styles */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Set core theme defaults */
+:root {
+  color-scheme: light dark;
+}
+
+/* Improve text rendering */
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 } 

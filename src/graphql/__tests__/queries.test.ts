@@ -1,6 +1,53 @@
 import { print } from 'graphql';
-import { CHARACTERS_QUERY } from '../../pages/HomePage';
-import { CHARACTER_QUERY } from '../../pages/CharacterPage';
+import { gql } from '@urql/core';
+
+const CHARACTERS_QUERY = gql`
+  query GetCharacters($page: Int!, $filter: FilterCharacter) {
+    characters(page: $page, filter: $filter) {
+      info {
+        count
+        pages
+        next
+        prev
+      }
+      results {
+        id
+        name
+        status
+        species
+        image
+        location {
+          name
+        }
+      }
+    }
+  }
+`;
+
+const CHARACTER_QUERY = gql`
+  query GetCharacter($id: ID!) {
+    character(id: $id) {
+      id
+      name
+      status
+      species
+      gender
+      origin {
+        name
+      }
+      location {
+        name
+      }
+      image
+      episode {
+        id
+        name
+        air_date
+        episode
+      }
+    }
+  }
+`;
 
 describe('GraphQL Queries', () => {
   describe('CHARACTERS_QUERY', () => {
@@ -20,8 +67,8 @@ describe('GraphQL Queries', () => {
 
     it('accepts page variable', () => {
       const printedQuery = print(CHARACTERS_QUERY);
-      expect(printedQuery).toContain('query GetCharacters($page: Int!)');
-      expect(printedQuery).toContain('characters(page: $page)');
+      expect(printedQuery).toContain('query GetCharacters($page: Int!, $filter: FilterCharacter)');
+      expect(printedQuery).toContain('characters(page: $page, filter: $filter)');
     });
   });
 

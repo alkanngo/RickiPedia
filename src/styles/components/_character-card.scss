@@ -1,82 +1,196 @@
-@use 'sass:color';
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
 .character-card {
-  @include card-shadow;
-  background-color: white;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: 120px;
+  aspect-ratio: 1;
+  background: var(--surface-color);
   border-radius: $border-radius;
   overflow: hidden;
-  transition: transform $transition-duration ease;
-  display: block;
-  
+  transition: all 0.3s ease;
+  box-shadow: $shadow-medium;
+
   &:hover {
-    transform: translateY(-4px);
-    text-decoration: none;
+    transform: translateY(-5px);
+    box-shadow: $shadow-large;
+
+    &::after {
+      opacity: 1;
+    }
+
+    .character-card__overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .character-card__title {
+      opacity: 0;
+    }
   }
-  
-  &__image-container {
-    position: relative;
-    padding-top: 100%; // 1:1 aspect ratio
-  }
-  
-  &__image {
+
+  // Portal glow effect
+  &::after {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: -2px;
+    background: radial-gradient(
+      circle at center,
+      var(--portal-glow) 0%,
+      transparent 70%
+    );
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &__image-container {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    position: relative;
+  }
+
+  &__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  
-  &__status {
+
+  // Always visible title
+  &__title {
     position: absolute;
-    bottom: $spacing-small;
-    left: $spacing-small;
-    padding: $spacing-small $spacing-medium;
-    border-radius: $border-radius;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    font-size: $font-size-small;
-    
-    &--alive {
-      &::before {
-        content: '';
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #55cc44;
-        margin-right: $spacing-small;
-      }
-    }
-    
-    &--dead {
-      &::before {
-        content: '';
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #d63d2e;
-        margin-right: $spacing-small;
-      }
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $spacing-small;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.7) 80%,
+      transparent
+    );
+    transition: opacity 0.3s ease;
+    z-index: 1;
+
+    h2 {
+      font-family: $font-family-heading;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-bold;
+      margin: 0;
+      color: white;
+      @include text-truncate;
     }
   }
-  
-  &__info {
+
+  &__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.5) 70%,
+      transparent
+    );
     padding: $spacing-medium;
+    color: white;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 2;
   }
-  
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
   &__name {
-    font-size: $font-size-large;
-    font-weight: bold;
-    margin-bottom: $spacing-small;
-    color: $text-color;
+    font-family: $font-family-heading;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+    margin: 0;
+    color: var(--primary-color);
+    @include text-truncate;
   }
-  
-  &__species {
-    color: color.adjust($text-color, $lightness: 20%);
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
     font-size: $font-size-small;
+    color: white;
+    
+    &::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    &--alive::before {
+      background-color: var(--status-alive);
+    }
+
+    &--dead::before {
+      background-color: var(--status-dead);
+    }
+
+    &--unknown::before {
+      background-color: var(--status-unknown);
+    }
+  }
+
+  &__species {
+    font-size: $font-size-small;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+  }
+
+  &__link {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    text-decoration: none;
+    
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  }
+
+  // Focus styles
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--portal-glow);
+  }
+
+  // Responsive adjustments
+  @media (max-width: #{$breakpoint-tablet}) {
+    min-height: 120px;
+
+    &__image-container {
+      min-height: 120px;
+    }
+  }
+
+  @media (max-width: #{$breakpoint-mobile}) {
+    min-height: 100px;
+
+    &__image-container {
+      min-height: 100px;
+    }
+
+    &__title h2 {
+      font-size: $font-size-small;
+    }
   }
 } 

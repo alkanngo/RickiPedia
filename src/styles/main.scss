@@ -5,6 +5,7 @@
 @use 'abstracts/mixins' as *;
 
 // Base styles
+@use 'base/theme';
 @use 'base/reset';
 
 // Components
@@ -12,6 +13,9 @@
 @use 'components/pagination';
 @use 'components/button';
 @use 'components/loader';
+@use 'components/search-bar';
+@use 'components/theme-toggle';
+@use 'components/welcome-overlay';
 
 // Pages
 @use 'pages/home';

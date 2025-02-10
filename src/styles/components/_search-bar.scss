@@ -1,0 +1,124 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.search-bar {
+  @include flex-between;
+  gap: $spacing-medium;
+  margin-bottom: $spacing-large;
+  width: 100%;
+  
+  &__input-wrapper {
+    position: relative;
+    flex: 1;
+  }
+  
+  &__input {
+    width: 100%;
+    padding: $spacing-medium;
+    padding-right: $spacing-xl;
+    border: 2px solid var(--border-color);
+    border-radius: $border-radius;
+    background: var(--surface-color);
+    color: var(--text-color);
+    font-family: $font-family-base;
+    font-size: $font-size-medium;
+    transition: all 0.3s ease;
+    
+    &::placeholder {
+      color: var(--text-color-secondary);
+    }
+    
+    &:hover {
+      border-color: var(--primary-color);
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px var(--portal-glow);
+    }
+  }
+  
+  &__icon {
+    position: absolute;
+    right: $spacing-medium;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color-secondary);
+    pointer-events: none;
+  }
+  
+  &__filters {
+    @include flex-center;
+    gap: $spacing-small;
+  }
+  
+  &__select {
+    padding: $spacing-medium $spacing-xl $spacing-medium $spacing-medium;
+    border: 2px solid var(--border-color);
+    border-radius: $border-radius-full;
+    background: var(--surface-color);
+    color: var(--text-color);
+    font-size: $font-size-medium;
+    cursor: pointer;
+    transition: all $transition-duration $transition-timing;
+    
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px var(--portal-glow);
+    }
+    
+    option {
+      background: var(--surface-color);
+      color: var(--text-color);
+    }
+  }
+  
+  @include mobile {
+    flex-direction: column;
+    gap: $spacing-small;
+    
+    &__filters {
+      width: 100%;
+      
+      select {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.status-filter {
+  min-width: 150px;
+  padding: $spacing-medium;
+  border: 2px solid var(--border-color);
+  border-radius: $border-radius;
+  background: var(--surface-color);
+  color: var(--text-color);
+  font-family: $font-family-base;
+  font-size: $font-size-medium;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--primary-color);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--portal-glow);
+  }
+
+  option {
+    background: var(--surface-color);
+    color: var(--text-color);
+    font-family: $font-family-base;
+    padding: $spacing-small;
+  }
+
+  @include mobile {
+    width: 100%;
+  }
+} 

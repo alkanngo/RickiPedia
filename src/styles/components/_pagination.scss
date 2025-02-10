@@ -1,35 +1,82 @@
-@use 'sass:color';
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
 .pagination {
   @include flex-center;
   gap: $spacing-medium;
-  margin: $spacing-large 0;
+  padding: $spacing-medium;
+  background: var(--surface-color);
+  border-radius: $border-radius;
+  box-shadow: $shadow-small;
   
   &__button {
     @include button-base;
-    background-color: $primary-color;
-    color: white;
     width: 40px;
     height: 40px;
+    padding: 0;
     border-radius: 50%;
+    background: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
+    font-size: $font-size-large;
+    position: relative;
+    overflow: hidden;
+    
+    &:hover:not(:disabled) {
+      background-color: var(--surface-hover);
+      transform: translateY(-2px);
+      
+      &::before {
+        opacity: 0.1;
+      }
+    }
     
     &:disabled {
-      background-color: color.adjust($primary-color, $lightness: 30%);
-      cursor: not-allowed;
+      border-color: var(--border-color);
+      color: var(--text-color-secondary);
       transform: none;
-      
-      &:hover {
-        transform: none;
-      }
+    }
+  }
+  
+  &__pages {
+    @include flex-center;
+    gap: $spacing-small;
+  }
+  
+  &__page {
+    @include button-base;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 $spacing-small;
+    border-radius: $border-radius;
+    background: transparent;
+    color: var(--text-color);
+    font-weight: $font-weight-medium;
+    position: relative;
+    overflow: hidden;
+    
+    &:hover:not(:disabled):not(&--active) {
+      background-color: var(--surface-hover);
+      transform: translateY(-2px);
+    }
+    
+    &--active {
+      background: var(--primary-color);
+      color: white;
+      transform: none;
+    }
+    
+    &:disabled {
+      color: var(--text-color-secondary);
+      cursor: not-allowed;
     }
   }
   
   &__info {
-    font-size: $font-size-base;
-    color: $text-color;
-    min-width: 120px;
-    text-align: center;
+    color: var(--text-color-secondary);
+    font-size: $font-size-small;
+    padding: $spacing-xs $spacing-small;
+    background: var(--surface-hover);
+    border-radius: $border-radius;
   }
 } 

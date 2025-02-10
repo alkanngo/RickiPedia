@@ -1,0 +1,166 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xxl;
+  padding: $spacing-xl;
+
+  &__portal-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: #{$breakpoint-tablet}) {
+      width: 400px;
+      height: 400px;
+    }
+
+    @media (max-width: #{$breakpoint-mobile}) {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  &__portal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: portalSpin 2s ease-out;
+  }
+
+  &__logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 600px;
+    max-width: 90vw;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 2;
+
+    &--visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @media (max-width: #{$breakpoint-tablet}) {
+      width: 450px;
+    }
+
+    @media (max-width: #{$breakpoint-mobile}) {
+      width: 300px;
+    }
+  }
+
+  &__message {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+    text-align: center;
+    max-width: 800px;
+    padding: $spacing-large;
+    border-radius: $border-radius;
+    margin: 0 $spacing-medium;
+
+    &--visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    p {
+      margin: $spacing-medium 0;
+      font-family: $font-family-heading;
+      font-size: $font-size-xl;
+      color: var(--text-color);
+      line-height: 1.4;
+
+      &:first-child {
+        color: var(--primary-color);
+        font-size: $font-size-xxl;
+        font-weight: $font-weight-bold;
+      }
+
+      @include mobile {
+        font-size: $font-size-large;
+        
+        &:first-child {
+          font-size: $font-size-xl;
+        }
+      }
+    }
+  }
+
+  &__button {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    background: var(--primary-color);
+    color: white;
+    font-family: $font-family-heading;
+    font-size: $font-size-xl;
+    padding: $spacing-medium $spacing-xxl;
+    border: none;
+    border-radius: $border-radius-full;
+    cursor: pointer;
+    position: relative;
+    font-weight: $font-weight-bold;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      background: radial-gradient(
+        circle at center,
+        var(--portal-glow) 0%,
+        transparent 70%
+      );
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    &--visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    &:hover {
+      transform: translateY(-2px) scale(1.05);
+      background: var(--button-hover);
+
+      &::after {
+        opacity: 1;
+      }
+    }
+
+    @include mobile {
+      font-size: $font-size-large;
+      padding: $spacing-medium $spacing-xl;
+    }
+  }
+}
+
+@keyframes portalSpin {
+  from {
+    transform: rotate(-720deg) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}

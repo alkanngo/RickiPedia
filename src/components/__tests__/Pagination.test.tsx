@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '../../test-utils/test-utils';
 import { vi } from 'vitest';
 import Pagination from '../Pagination';
-
 
 describe('Pagination', () => {
   const defaultProps = {
@@ -17,7 +16,8 @@ describe('Pagination', () => {
 
   it('renders current page and total pages', () => {
     render(<Pagination {...defaultProps} />);
-    expect(screen.getByText('Page 1 of 5')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '1' })).toHaveClass('pagination__page--active');
+    expect(screen.getAllByRole('button')).toHaveLength(7); // 5 page buttons + prev + next
   });
 
   it('disables previous button on first page', () => {
@@ -62,7 +62,7 @@ describe('Pagination', () => {
     
     expect(screen.getByLabelText('Previous page')).toBeDisabled();
     expect(screen.getByLabelText('Next page')).toBeDisabled();
-    expect(screen.getByText('Page 1 of 1')).toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(3); // 1 page button + prev + next
   });
 
   it('handles zero pages case', () => {
@@ -70,6 +70,6 @@ describe('Pagination', () => {
     
     expect(screen.getByLabelText('Previous page')).toBeDisabled();
     expect(screen.getByLabelText('Next page')).toBeDisabled();
-    expect(screen.getByText('Page 1 of 0')).toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(2); // just prev + next buttons
   });
 }); 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../../test-utils/test-utils';
 import Loader from '../Loader';
 
 describe('Loader', () => {
@@ -8,22 +8,21 @@ describe('Loader', () => {
     
     const loader = screen.getByRole('status');
     expect(loader).toBeInTheDocument();
-    expect(screen.getByText('Loading...')).toHaveClass('sr-only');
+    expect(screen.getByText('Loading... Aw geez!')).toHaveClass('sr-only');
   });
 
   it('has the correct class names', () => {
     render(<Loader />);
     
     expect(screen.getByRole('status')).toHaveClass('loader');
-    expect(screen.getByRole('status').firstChild).toHaveClass('loader__spinner');
+    expect(screen.getByTestId('loader-video')).toHaveClass('loader__video');
   });
 
   it('is visible to the user', () => {
     render(<Loader />);
     
     const loader = screen.getByRole('status');
-    const styles = window.getComputedStyle(loader);
-    expect(styles.display).not.toBe('none');
-    expect(styles.visibility).not.toBe('hidden');
+    expect(loader).toBeInTheDocument();
+    expect(loader).toBeVisible();
   });
 }); 

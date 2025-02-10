@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CharacterPage from "./pages/CharacterPage";
-import HomePage from "./pages/HomePage";
+import { ThemeProvider } from "./context/ThemeContext";
+import App from "./App";
 import "./styles/main.scss";
 
 const client = new Client({
@@ -12,21 +11,12 @@ const client = new Client({
   requestPolicy: 'cache-and-network',
 });
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/character/:id",
-    element: <CharacterPage />,
-  },
-]);
-
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider value={client}>
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
 );

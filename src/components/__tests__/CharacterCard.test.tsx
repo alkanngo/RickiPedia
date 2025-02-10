@@ -14,9 +14,11 @@ describe('CharacterCard', () => {
   it('renders character information correctly', () => {
     render(<CharacterCard character={mockCharacter} />);
     
-    expect(screen.getByText('Rick Sanchez')).toBeInTheDocument();
+    expect(screen.getAllByRole('heading', { name: 'Rick Sanchez', level: 2 })).toHaveLength(2);
     expect(screen.getByText('Human')).toBeInTheDocument();
-    expect(screen.getByText('Alive')).toBeInTheDocument();
+    
+    const statusElement = screen.getByTestId('character-status');
+    expect(statusElement).toHaveClass('character-card__status--alive');
     
     const image = screen.getByAltText('Rick Sanchez') as HTMLImageElement;
     expect(image.src).toBe(mockCharacter.image);
@@ -33,11 +35,11 @@ describe('CharacterCard', () => {
 
     render(<CharacterCard character={incompleteCharacter} />);
     
-    // Check for name in the heading
-    expect(screen.getByRole('heading', { name: 'Unknown' })).toBeInTheDocument();
+    expect(screen.getAllByRole('heading', { name: 'Unknown', level: 2 })).toHaveLength(2);
     expect(screen.getByText('Unknown species')).toBeInTheDocument();
-    // Check for status text
-    expect(screen.getByText('Unknown', { selector: '.character-card__status' })).toBeInTheDocument();
+    
+    const statusElement = screen.getByTestId('character-status');
+    expect(statusElement).toHaveClass('character-card__status--unknown');
     
     const image = screen.getByAltText('Unknown') as HTMLImageElement;
     expect(image.src).toContain('placeholder.com');
@@ -46,7 +48,7 @@ describe('CharacterCard', () => {
   it('applies correct status styling', () => {
     render(<CharacterCard character={mockCharacter} />);
     
-    const statusElement = screen.getByText('Alive');
+    const statusElement = screen.getByTestId('character-status');
     expect(statusElement).toHaveClass('character-card__status');
     expect(statusElement).toHaveClass('character-card__status--alive');
   });

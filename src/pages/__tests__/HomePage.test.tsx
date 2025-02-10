@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '../../test-utils/test-utils';
 import { graphql, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 import HomePage from '../HomePage';
+import { vi } from 'vitest';
 
 const mockCharactersResponse = {
   data: {
@@ -20,6 +21,9 @@ const mockCharactersResponse = {
           status: 'Alive',
           species: 'Human',
           image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+          location: {
+            name: 'Earth'
+          }
         },
         {
           id: '2',
@@ -27,6 +31,9 @@ const mockCharactersResponse = {
           status: 'Alive',
           species: 'Human',
           image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
+          location: {
+            name: 'Earth'
+          }
         },
       ],
     },
@@ -40,10 +47,21 @@ const server = setupServer(
 );
 
 beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
+afterEach(() => {
+  server.resetHandlers();
+  vi.clearAllTimers();
+});
 afterAll(() => server.close());
 
 describe('HomePage', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('renders loading state initially', () => {
     render(<HomePage />);
     expect(screen.getByRole('status')).toBeInTheDocument();
@@ -52,20 +70,29 @@ describe('HomePage', () => {
   it('renders characters after loading', async () => {
     render(<HomePage />);
 
+    // Fast-forward past the loading state
+    await vi.advanceTimersByTimeAsync(2000);
+
     await waitFor(() => {
       expect(screen.getByText('Rick Sanchez')).toBeInTheDocument();
-      expect(screen.getByText('Morty Smith')).toBeInTheDocument();
     });
+
+    expect(screen.getByText('Morty Smith')).toBeInTheDocument();
   });
 
   it('renders character cards with correct links', async () => {
     render(<HomePage />);
 
+    // Fast-forward past the loading state
+    await vi.advanceTimersByTimeAsync(2000);
+
     await waitFor(() => {
-      const links = screen.getAllByRole('link');
-      expect(links[0]).toHaveAttribute('href', '/character/1');
-      expect(links[1]).toHaveAttribute('href', '/character/2');
+      expect(screen.getAllByTestId('character-link')).toHaveLength(2);
     });
+
+    const links = screen.getAllByTestId('character-link');
+    expect(links[0]).toHaveAttribute('href', '/character/1');
+    expect(links[1]).toHaveAttribute('href', '/character/2');
   });
 
   it('handles error state', async () => {
@@ -80,9 +107,10 @@ describe('HomePage', () => {
     render(<HomePage />);
 
     await waitFor(() => {
-      expect(screen.getByText(/error/i)).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: /retry/i })).toBeInTheDocument();
+      expect(screen.getByTestId('error-message')).toBeInTheDocument();
     });
+
+    expect(screen.getByTestId('retry-button')).toBeInTheDocument();
   });
 
   it('handles empty results', async () => {
@@ -101,8 +129,11 @@ describe('HomePage', () => {
 
     render(<HomePage />);
 
+    // Fast-forward past the loading state
+    await vi.advanceTimersByTimeAsync(2000);
+
     await waitFor(() => {
-      expect(screen.queryByRole('link')).not.toBeInTheDocument();
+      expect(screen.getByText(/no characters found/i)).toBeInTheDocument();
     });
   });
 }); 

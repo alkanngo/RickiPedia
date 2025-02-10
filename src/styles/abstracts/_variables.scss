@@ -1,43 +1,96 @@
-// Colors
-$primary-color: #97ce4c; // Rick and Morty green
-$secondary-color: #44281d; // Dark brown
-$background-color: #f5f5f5;
-$text-color: #333333;
-$error-color: #ff6b6b;
+// Brand Colors
+$primary-color: #42B4CA;
+$secondary-color: #C1E042;
+$accent-color: #FF9800;
+$warning-color: #FFC107;
+$error-color: #FF5252;
+$success-color: #4CAF50;
+
+// Theme Colors
+$background-color-light: #F5F5F5;
+$background-color-dark: #1A1A1A;
+$text-color-light: #333333;
+$text-color-dark: #FFFFFF;
+$surface-color-light: #FFFFFF;
+$surface-color-dark: #2D2D2D;
+
+// Status Colors
+$status-alive: #4CAF50;
+$status-dead: #FF5252;
+$status-unknown: #9E9E9E;
 
 // Typography
-$font-family-base: 'Roboto', sans-serif;
-$font-size-base: 16px;
-$font-size-large: 24px;
-$font-size-small: 14px;
+$font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
+$font-family-heading: 'Outfit', 'Space Grotesk', sans-serif;
+$font-family-display: $font-family-heading;
+$font-size-xs: 0.75rem;     // 12px
+$font-size-small: 0.875rem;  // 14px
+$font-size-medium: 1rem;     // 16px
+$font-size-large: 1.125rem;  // 18px
+$font-size-xl: 1.5rem;      // 24px
+$font-size-xxl: 2rem;       // 32px
+$font-size-display: 3rem;    // 48px
+
+// Font Weights
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Line Heights
+$line-height-tight: 1.2;
+$line-height-base: 1.5;
+$line-height-relaxed: 1.7;
 
 // Spacing
-$spacing-unit: 8px;
-$spacing-small: $spacing-unit;
-$spacing-medium: $spacing-unit * 2;
-$spacing-large: $spacing-unit * 3;
+$spacing-xs: 0.25rem;    // 4px
+$spacing-small: 0.5rem;  // 8px
+$spacing-medium: 1rem;   // 16px
+$spacing-large: 1.5rem;  // 24px
+$spacing-xl: 2rem;       // 32px
+$spacing-xxl: 3rem;      // 48px
 
 // Breakpoints
-$breakpoint-mobile: 576px;
+$breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
+$breakpoint-large: 1200px;
 
-// Border radius
+// Border Radius
 $border-radius: 8px;
+$border-radius-large: 16px;
+$border-radius-full: 9999px;
 
 // Transitions
 $transition-duration: 0.3s;
+$transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+// Shadows
+$shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-large: 0 8px 16px rgba(0, 0, 0, 0.1);
+$shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
 
 // Z-index levels
 $z-index-modal: 1000;
 $z-index-overlay: 900;
 $z-index-dropdown: 800;
 $z-index-header: 700;
+$z-index-tooltip: 600;
+
+// Container
+$container-max-width: 1200px;
+$container-padding: $spacing-medium;
+
+// Grid
+$grid-columns: 12;
+$grid-gap: $spacing-medium;
 
 :export {
   primaryColor: $primary-color;
   secondaryColor: $secondary-color;
-  backgroundColor: $background-color;
-  textColor: $text-color;
+  accentColor: $accent-color;
+  backgroundColor: $background-color-light;
+  textColor: $text-color-light;
   errorColor: $error-color;
 } 

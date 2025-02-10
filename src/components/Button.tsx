@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes } from 'react';
+import classNames from 'classnames';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'text';
@@ -17,19 +18,20 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseClass = 'button';
-  const classes = [
-    baseClass,
-    `${baseClass}--${variant}`,
-    `${baseClass}--${size}`,
-    fullWidth ? `${baseClass}--full-width` : '',
-    isLoading ? `${baseClass}--loading` : '',
-    className,
-  ].filter(Boolean).join(' ');
+  const buttonClasses = classNames(
+    'button',
+    `button--${variant}`,
+    `button--${size}`,
+    {
+      'button--full-width': fullWidth,
+      'button--loading': isLoading
+    },
+    className
+  );
 
   return (
     <button
-      className={classes}
+      className={buttonClasses}
       disabled={disabled || isLoading}
       {...props}
     >
